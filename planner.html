@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>totonoi 集客＆売上プランナー（事業計画Excel対応）</title>
+<style>
+  :root{
+    color-scheme: light;
+    --cream:#F6EFE7; --cream-2:#FBF6EF; --cream-3:#FDFAF5;
+    --blush:#E7BCAF; --blush-wash:#F3DED6;
+    --rose:#C67E6E; --rose-deep:#B26A5A;
+    --sage:#7E9480; --sage-deep:#5D7462; --sage-wash:#E4EADF;
+    --gold:#C9A36A;
+    --ink:#43352F; --ink-soft:#8C7A70; --ink-faint:#B3A498;
+    --line:rgba(122,92,80,.16);
+    --shadow-sm:0 12px 28px -18px rgba(83,54,44,.34);
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Songti SC",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .page{font-family:var(--sans);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;
+    background:radial-gradient(800px 460px at 92% 116%,var(--blush-wash),transparent 55%),radial-gradient(640px 440px at 4% 98%,var(--sage-wash),transparent 55%),linear-gradient(180deg,var(--cream-2),var(--cream));
+    padding:clamp(22px,5vw,48px) clamp(14px,4vw,40px) 70px;}
+  .wrap{max-width:1140px;margin:0 auto;}
+  .eyebrow{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose-deep);font-weight:700;margin:0 0 10px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,3vw,1.95rem);margin:0 0 8px;letter-spacing:.02em;}
+  .lead{margin:0;color:var(--ink-soft);font-size:.96rem;max-width:70ch;}
+  .callout{margin:14px 0 0;background:var(--cream-3);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:12px 16px;font-size:.84rem;color:var(--ink);}
+  .callout b{color:var(--rose-deep);}
+
+  .patterns{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px;align-items:center;}
+  .plabel{font-size:.78rem;color:var(--ink-soft);margin-right:2px;}
+  .pt{font-family:var(--sans);font-size:.82rem;font-weight:600;border:1px solid var(--line);background:var(--cream-3);color:var(--ink);border-radius:999px;padding:8px 15px;cursor:pointer;transition:all .16s;box-shadow:var(--shadow-sm);}
+  .pt:hover{border-color:var(--rose);}
+  .pt.on{background:var(--rose);color:#fff;border-color:var(--rose);}
+
+  .pdesc{margin-top:14px;padding:16px 18px;}
+  .pdesc .pt-name{font-family:var(--serif);font-weight:600;font-size:1.02rem;margin:0 0 12px;color:var(--ink);}
+  .pdesc .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media (max-width:720px){.pdesc .cols{grid-template-columns:1fr;}}
+  .pdesc .col h4{font-size:.8rem;margin:0 0 7px;display:flex;align-items:center;gap:6px;letter-spacing:.02em;}
+  .pdesc .col h4::before{content:"";width:9px;height:9px;border-radius:50%;}
+  .pdesc .m h4{color:var(--sage-deep);}.pdesc .m h4::before{background:var(--sage);}
+  .pdesc .d h4{color:var(--rose-deep);}.pdesc .d h4::before{background:var(--rose);}
+  .pdesc .p h4{color:#a5842f;}.pdesc .p h4::before{background:var(--gold);}
+  .pdesc .col ul{margin:0;padding-left:1.05em;font-size:.82rem;color:var(--ink-soft);line-height:1.65;}
+  .pdesc .col li{margin-bottom:3px;}
+
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:clamp(16px,2.4vw,26px);margin-top:18px;align-items:start;}
+  @media (max-width:900px){.grid{grid-template-columns:1fr;}}
+  .card{background:var(--cream-3);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);}
+  .card h2{font-family:var(--serif);font-weight:600;font-size:1.06rem;margin:0 0 3px;}
+  .card .sub{font-size:.78rem;color:var(--ink-soft);margin:0 0 14px;}
+
+  .ch-head,.ch-row{display:grid;grid-template-columns:26px 1fr 82px 54px 62px 24px;gap:7px;align-items:center;}
+  .ch-head{font-size:.66rem;color:var(--ink-faint);padding:0 2px 6px;}
+  .ch-head span:nth-child(3),.ch-head span:nth-child(4),.ch-head span:nth-child(5){text-align:right;}
+  .ch-row{padding:6px 0;border-top:1px solid var(--line);}
+  .ch-row input[type=text]{width:100%;border:1px solid transparent;background:transparent;font-size:.86rem;color:var(--ink);border-radius:7px;padding:5px 6px;}
+  .ch-row input[type=text]:focus{outline:none;border-color:var(--blush);background:#fff;}
+  .ch-row input[type=number]{width:100%;border:1px solid var(--line);background:#fff;font-size:.82rem;color:var(--ink);border-radius:7px;padding:5px 6px;text-align:right;font-variant-numeric:tabular-nums;}
+  .ch-row .clk{font-size:.8rem;color:var(--sage-deep);text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+  .ch-row.off{opacity:.4;}
+  .ch-del{border:none;background:none;color:var(--ink-faint);cursor:pointer;font-size:1.1rem;line-height:1;padding:0;}
+  .ch-del:hover{color:var(--rose-deep);}
+  .ch-on{width:16px;height:16px;accent-color:var(--rose);cursor:pointer;}
+  .addch{margin-top:10px;font-size:.8rem;font-weight:600;color:var(--rose-deep);background:var(--blush-wash);border:1px dashed var(--blush);border-radius:10px;padding:8px 12px;cursor:pointer;width:100%;}
+
+  .rates{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);}
+  .field{margin-bottom:12px;}
+  .field .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+  .field label{font-size:.83rem;color:var(--ink);}
+  .field .val{font-family:var(--serif);font-size:.98rem;color:var(--rose-deep);font-variant-numeric:tabular-nums;}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:5px;background:var(--blush-wash);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;background:var(--rose);cursor:pointer;border:3px solid #fff;box-shadow:0 2px 6px rgba(83,54,44,.3);}
+  input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:var(--rose);cursor:pointer;border:3px solid #fff;}
+
+  .funnel{display:flex;flex-direction:column;gap:8px;margin:2px 0 10px;}
+  .fstep{display:grid;grid-template-columns:96px 1fr auto;gap:9px;align-items:center;}
+  .fstep .fl{font-size:.78rem;color:var(--ink-soft);}
+  .fstep .track{height:22px;border-radius:7px;background:rgba(122,92,80,.08);overflow:hidden;}
+  .fstep .fill{height:100%;border-radius:7px;min-width:3px;transition:width .3s ease;}
+  .fstep .num{font-family:var(--serif);font-size:.96rem;color:var(--ink);font-variant-numeric:tabular-nums;min-width:56px;text-align:right;}
+  .c1{background:var(--sage);}.c2{background:var(--gold);}.c3{background:var(--blush);}.c4{background:var(--rose);}.c5{background:var(--rose-deep);}
+
+  .accnote{font-size:.8rem;color:var(--ink-soft);background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin-bottom:12px;}
+  .accnote b{color:var(--ink);}
+
+  table.xls{width:100%;border-collapse:collapse;font-size:.8rem;}
+  table.xls th,table.xls td{padding:7px 7px;text-align:right;font-variant-numeric:tabular-nums;border-bottom:1px solid var(--line);}
+  table.xls th{color:var(--ink-soft);font-weight:600;font-size:.72rem;background:var(--cream);}
+  table.xls td.l,table.xls th.l{text-align:left;}
+  table.xls .mid{font-weight:700;color:var(--sage-deep);background:var(--sage-wash);}
+  table.xls tr.total td{border-top:2px solid var(--blush);border-bottom:none;font-weight:700;font-size:.92rem;color:var(--rose-deep);}
+  .xls-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line);}
+
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+  .kpi{background:var(--cream);border:1px solid var(--line);border-radius:13px;padding:11px 13px;}
+  .kpi .k{font-size:.7rem;color:var(--ink-soft);}
+  .kpi .v{font-family:var(--serif);font-size:1.25rem;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:1px;}
+  .kpi.big{grid-column:1 / -1;background:linear-gradient(180deg,var(--blush-wash),var(--cream-3));border-color:var(--blush);}
+  .kpi.big .v{color:var(--rose-deep);font-size:1.55rem;}
+
+  .rev{margin-top:14px;background:var(--sage-wash);border:1px solid rgba(93,116,98,.3);border-radius:14px;padding:14px 16px;}
+  .rev h3{margin:0 0 9px;font-size:.9rem;color:var(--sage-deep);}
+  .rev .rrow{display:flex;justify-content:space-between;align-items:baseline;font-size:.85rem;margin-bottom:6px;}
+  .rev .rrow .rv{font-family:var(--serif);font-size:1.05rem;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .compare{margin-top:14px;font-size:.82rem;color:var(--ink);background:var(--cream);border:1px dashed var(--blush);border-radius:13px;padding:12px 15px;}
+  .compare b{color:var(--rose-deep);}
+
+  .econ{margin-top:18px;}
+  .econ .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px;}
+  @media (max-width:520px){.econ .fgrid{grid-template-columns:1fr;}}
+  .pricebox{margin-top:12px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.8rem;color:var(--ink-soft);}
+  .pricebox b{color:var(--ink);}
+  .mixgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px;}
+  @media (max-width:520px){.mixgrid{grid-template-columns:1fr 1fr;}}
+  .mixgrid .mi label{font-size:.72rem;color:var(--ink-soft);display:block;margin-bottom:3px;}
+  .mixgrid .mi input{width:100%;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px;text-align:right;font-size:.82rem;font-variant-numeric:tabular-nums;}
+
+  .notes{margin-top:20px;font-size:.8rem;color:var(--ink-soft);line-height:1.7;}
+  .notes b{color:var(--ink);}
+  .gloss{margin-top:18px;}
+  .gloss dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px 22px;margin:4px 0 0;}
+  .gloss .term{border-left:3px solid var(--blush);padding-left:12px;}
+  .gloss dt{font-weight:700;font-size:.86rem;color:var(--ink);margin-bottom:2px;}
+  .gloss dt span{font-weight:400;color:var(--ink-faint);font-size:.74rem;margin-left:6px;}
+  .gloss dd{margin:0;font-size:.82rem;color:var(--ink-soft);line-height:1.6;}
+  .gloss .eg{color:var(--sage-deep);}
+</style>
+</head>
+<body>
+
+
+<div class="page">
+  <div class="wrap">
+    <p class="eyebrow">totonoi ／ 集客 → 売上（事業計画Excel対応）</p>
+    <h1>集客の数字から、事業計画の「売上」をつくる。</h1>
+    <p class="lead">左でチャネル（流入経路）を編集すると、右に<b>事業計画Excelと同じ項目・商品・料金</b>で売上が出ます。ここで出た「当月獲得社数／累積獲得社数／売上」を、そのままExcelの売上欄に写せます。数値は仮説です。</p>
+    <div class="callout">📊 <b>これは事業計画書を作るための計算ツールです。</b>項目名（当月獲得社数・累積獲得社数・チャーンレート・単価・売上）と商品（単発30/50min.・チケット制3/5枚・月額2,980/4,980円）を、友人のExcelに揃えています。<b>※App料金はExcel準拠で2,980/4,980円</b>（提案書の1,980円と相違＝要確定）。</div>
+
+    <div class="patterns">
+      <span class="plabel">経路パターン：</span>
+      <button class="pt on" data-p="p1">① X中心・毎日の問い型</button>
+      <button class="pt" data-p="p2">② Instagram・ビジュアル型</button>
+      <button class="pt" data-p="p3">③ 短尺動画（リール/TikTok）型</button>
+      <button class="pt" data-p="p4">④ note・SEO/信頼型</button>
+      <button class="pt" data-p="p5">⑤ 無料診断・バズ型</button>
+      <button class="pt" data-p="p6">⑥ 紹介・口コミ型</button>
+      <button class="pt" data-p="p7">⑦ 広告ブースト型（要広告費）</button>
+    </div>
+    <div class="card pdesc" id="pdesc"></div>
+
+    <div class="grid">
+      <!-- LEFT: routes -->
+      <div class="card">
+        <h2>① 流入経路（自由に編集）</h2>
+        <p class="sub">チェックでON/OFF、数値は直接編集、×で削除、下のボタンで追加。</p>
+        <div class="ch-head"><span></span><span>チャネル</span><span>リーチ/月</span><span>CTR%</span><span>クリック</span><span></span></div>
+        <div id="channels"></div>
+        <button class="addch" id="addch">＋ チャネルを追加</button>
+        <div class="rates">
+          <div class="field"><div class="top"><label>LP → LINE登録率</label><span class="val" id="v-line">25%</span></div><input type="range" id="line" min="5" max="50" step="1" value="25"></div>
+          <div class="field"><div class="top"><label>LINE → アプリDL率</label><span class="val" id="v-dl">30%</span></div><input type="range" id="dl" min="5" max="60" step="1" value="30"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Excel-aligned revenue -->
+      <div class="card">
+        <h2>② 売上（事業計画Excelの項目で表示）</h2>
+        <p class="sub">毎月の流入ファネル → 商品別の当月獲得・累積・売上。</p>
+        <div class="funnel">
+          <div class="fstep"><span class="fl">LP流入</span><div class="track"><div class="fill c1" id="b-lp"></div></div><span class="num" id="n-lp">0</span></div>
+          <div class="fstep"><span class="fl">LINE登録</span><div class="track"><div class="fill c2" id="b-lineR"></div></div><span class="num" id="n-lineR">0</span></div>
+          <div class="fstep"><span class="fl">アプリDL</span><div class="track"><div class="fill c3" id="b-dlR"></div></div><span class="num" id="n-dlR">0</span></div>
+          <div class="fstep"><span class="fl">App当月獲得</span><div class="track"><div class="fill c4" id="b-newpay"></div></div><span class="num" id="n-newpay">0</span></div>
+          <div class="fstep"><span class="fl">Session当月獲得</span><div class="track"><div class="fill c5" id="b-book"></div></div><span class="num" id="n-book">0</span></div>
+        </div>
+        <div class="accnote" id="accnote"></div>
+        <div class="xls-wrap">
+          <table class="xls">
+            <thead><tr><th class="l">中項目</th><th class="l">小項目</th><th>単位</th><th>当月獲得社数</th><th>累積獲得社数</th><th>単価</th><th>売上/月</th></tr></thead>
+            <tbody id="xls-body"></tbody>
+          </table>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="k">うち Application（App）</div><div class="v" id="k-app">¥0</div></div>
+          <div class="kpi"><div class="k">うち Online session</div><div class="v" id="k-sess">¥0</div></div>
+          <div class="kpi big"><div class="k">売上 合計（12ヶ月後・月次）</div><div class="v" id="k-total">¥0</div></div>
+        </div>
+        <div class="rev">
+          <h3>③ 逆算：目標売上から必要リーチを出す</h3>
+          <div class="field" style="margin-bottom:6px;"><div class="top"><label>目標 売上（月次）</label><span class="val" id="v-target">¥500,000</span></div><input type="range" id="target" min="100000" max="3000000" step="50000" value="500000"></div>
+          <div class="rrow"><span><b>必要な 月間リーチ合計</b>（現状比で比例）</span><span class="rv" id="r-reach">0</span></div>
+        </div>
+        <div class="compare" id="compare"></div>
+      </div>
+    </div>
+
+    <!-- economics -->
+    <div class="card econ">
+      <h2>④ 前提（Excelの項目に対応）</h2>
+      <p class="sub">獲得率・チャーンレート・商品構成。単価は事業計画Excelに固定。</p>
+      <div class="fgrid">
+        <div class="field"><div class="top"><label>DL → App課金率</label><span class="val" id="v-pay">8%</span></div><input type="range" id="pay" min="1" max="20" step="0.5" value="8"></div>
+        <div class="field"><div class="top"><label>チャーンレート（月次・App解約）</label><span class="val" id="v-churn">8%</span></div><input type="range" id="churn" min="2" max="20" step="0.5" value="8"></div>
+        <div class="field"><div class="top"><label>LINE → Session予約率（月）</label><span class="val" id="v-book">2%</span></div><input type="range" id="book" min="0" max="10" step="0.5" value="2"></div>
+        <div class="field"><div class="top"><label>App構成比：月額2,980円の割合</label><span class="val" id="v-appmix">60%</span></div><input type="range" id="appmix" min="0" max="100" step="5" value="60"></div>
+      </div>
+      <p class="pricebox" style="margin-bottom:4px;"><b>Online session の構成比（予約が各商品にどう分かれるか・自動で100%に正規化）</b></p>
+      <div class="mixgrid">
+        <div class="mi"><label>単発30min.</label><input type="number" id="s30" value="40" min="0"></div>
+        <div class="mi"><label>単発50min.</label><input type="number" id="s50" value="25" min="0"></div>
+        <div class="mi"><label>チケット制3枚</label><input type="number" id="t3" value="20" min="0"></div>
+        <div class="mi"><label>チケット制5枚</label><input type="number" id="t5" value="15" min="0"></div>
+      </div>
+      <p class="pricebox"><b>単価（事業計画Excel準拠・固定）</b>　Application：月額2,980円／月額4,980円　｜　Online session：単発30min.5,000円／単発50min.8,000円／チケット制3枚23,000円／チケット制5枚37,000円</p>
+    </div>
+
+    <div class="card gloss">
+      <h2>用語の説明</h2>
+      <p class="sub">スライダーや表に出てくる言葉の意味です（事業計画Excelの項目と対応）。</p>
+      <dl>
+        <div class="term"><dt>リーチ／インプレッション</dt><dd>投稿が表示された延べ回数。「何人の目に触れたか」の規模。<span class="eg">例：月8万＝月に8万回表示。</span></dd></div>
+        <div class="term"><dt>CTR <span>クリック率</span></dt><dd>表示された人のうちリンクを押した割合。<span class="eg">例：CTR2%＝100回表示で2クリック。</span></dd></div>
+        <div class="term"><dt>当月獲得社数</dt><dd>その月に新しく獲得した数（App課金・Session予約）。Excelの項目名。<span class="eg">※アプリなので実質「人／契約」。</span></dd></div>
+        <div class="term"><dt>累積獲得社数</dt><dd>解約を差し引いて積み上がった有料会員の合計（Appサブスク）。＝前月累積×(1−チャーン)＋当月獲得。</dd></div>
+        <div class="term"><dt>チャーンレート <span>月次解約率</span></dt><dd>毎月、有料会員が解約する割合。<b>低いほど累積が伸びる</b>最重要数字。</dd></div>
+        <div class="term"><dt>単価</dt><dd>商品1つあたりの価格。事業計画Excelの金額に固定（2,980/4,980円、5,000/8,000/23,000/37,000円）。</dd></div>
+        <div class="term"><dt>売上</dt><dd>＝ 数量 × 単価。Appは「累積会員×月額」、Sessionは「当月予約数×単価」。</dd></div>
+        <div class="term"><dt>LP <span>ランディングページ</span></dt><dd>SNSから最初に着地する1枚ページ。LINE登録などの入口。</dd></div>
+        <div class="term"><dt>Application / Online session</dt><dd>Excelの2つの売上の柱。App＝アプリ課金、Online session＝オンラインのカウンセリング。</dd></div>
+      </dl>
+    </div>
+
+    <div class="notes">
+      <p><b>使い方 ▸</b> 経路パターンを選ぶ → 左のチャネルを実態に合わせて編集 → 右にExcel項目で売上が出る → その数字をExcelの売上欄へ。<br>
+      <b>次に ▸</b> Excelの<b>費用（原価・販管費）</b>を入れれば、粗利・営業利益・売上高営業利益率まで出ます（⑦広告型なら広告費を販管費に計上）。<br>
+      <b>顔出しについて ▸</b> 「③ 短尺動画型」は顔出し必須ではありません（風景＋テロップで成立）。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var PRICE={app2980:2980,app4980:4980,s30:5000,s50:8000,t3:23000,t5:37000};
+
+  var patterns={
+    p1:{ch:[['X',60000,2.2],['note',15000,1.5]],line:24,dl:30,pay:7,churn:9,book:2},
+    p2:{ch:[['Instagram',70000,2.5],['X',20000,1.8]],line:26,dl:32,pay:8,churn:8,book:2},
+    p3:{ch:[['TikTok',90000,2.2],['Instagram（リール）',50000,2.4]],line:22,dl:28,pay:8,churn:7,book:4},
+    p4:{ch:[['note',25000,2.5],['X',20000,1.5]],line:20,dl:30,pay:10,churn:6,book:4},
+    p5:{ch:[['X',60000,2.5],['Instagram',60000,2.5],['TikTok',40000,2]],line:35,dl:26,pay:6,churn:10,book:2},
+    p6:{ch:[['紹介・口コミ',8000,8],['Instagram',15000,2]],line:40,dl:45,pay:14,churn:5,book:8},
+    p7:{ch:[['Meta広告',100000,1.8],['Instagram',30000,2]],line:28,dl:30,pay:8,churn:8,book:2}
+  };
+  var descs={
+    p1:{name:'① X中心・毎日の問い型',m:['低コスト・毎日投稿を自動化しやすい','テキストだけで作れる','アプリの「今日の問い」と素材が共通','リポストで新規に届く'],d:['立ち上がりが遅い（フォロワー依存）','1投稿の寿命が短い','働く女性層はInstagramより薄め'],p:['Xアカウント','問いバンク（100問〜）','投稿テンプレ／自動投稿','プロフにLPリンク']},
+    p2:{name:'② Instagram・ビジュアル型',m:['ターゲット（働く女性）のボリューム層','保存が効き複利で伸びる','花・映えの世界観と相性◎'],d:['ビジュアル制作の手間が最も重い','リンクを貼りにくい','継続的なクリエイティブが必要'],p:['Instagramアカウント','カルーセルのテンプレ（Canva等）','写真素材','bioのLP／ストーリーズ運用']},
+    p3:{name:'③ 短尺動画（リール/TikTok）型　※顔出し不要',m:['新規リーチが最も伸びやすい','感情に刺さり拡散しやすい','顔出し不要（風景＋テロップで可）'],d:['動画制作の手間・スキルが要る','トレンドの移り変わりが速い','当たり外れが大きい'],p:['TikTok/リール用アカウント','動画素材（生成AI）＋CapCut編集','テロップ台本／BGM','LP・LINE導線']},
+    p4:{name:'④ note・SEO/信頼型',m:['複利（記事が資産に）','文章だけ・露出が低い','高意欲＝課金/予約に転換しやすい'],d:['立ち上がりが最も遅い（SEO数ヶ月）','母数（リーチ）は小さめ','執筆の継続コスト'],p:['noteアカウント','テーマ別のネタ','継続的な執筆時間','末尾に予約/アプリ導線']},
+    p5:{name:'⑤ 無料診断・バズ型',m:['拡散力が高い（結果をシェア）','一気に母数（登録）を取れる','診断はアプリ機能の再利用'],d:['集まる層の質が下がりがち','診断ページの制作が必要','単発で終わりやすい'],p:['診断Webページ','設問設計（心理尺度を参考）','結果→LINE/アプリ導線','拡散用の投稿']},
+    p6:{name:'⑥ 紹介・口コミ型',m:['立ち上げが最速・確実','温かい層＝高課金・低解約','需要の一次検証に最適／ほぼ無料'],d:['スケールしない（人脈は有限）','身内バイアスで判断を誤りやすい','友人が動く時間が必要'],p:['声かけリスト','紹介特典の仕組み','受け皿（予約/LINE）','感想を集める導線']},
+    p7:{name:'⑦ 広告ブースト型（要広告費）',m:['速い・量をコントロールできる','ターゲティング精度が高い','転換率の実測・テストが速い'],d:['広告費がかかる（CAC＞LTVだと赤字）','運用スキル・最適化が必要','クリエイティブも別途要る'],p:['Meta Business 広告アカウント','広告費の予算','クリエイティブ（動画/画像/コピー）','計測（ピクセル）＋LP/LINE']}
+  };
+  function renderDesc(key){var x=descs[key];if(!x)return;
+    function ul(a){return '<ul>'+a.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';}
+    document.getElementById('pdesc').innerHTML='<div class="pt-name">'+x.name+'</div><div class="cols">'+
+      '<div class="col m"><h4>メリット</h4>'+ul(x.m)+'</div><div class="col d"><h4>デメリット</h4>'+ul(x.d)+'</div><div class="col p"><h4>用意するもの</h4>'+ul(x.p)+'</div></div>';}
+
+  var channelsEl=document.getElementById('channels');
+  function chRow(name,reach,ctr,on){
+    var d=document.createElement('div'); d.className='ch-row'+(on===false?' off':'');
+    d.innerHTML='<input type="checkbox" class="ch-on"'+(on===false?'':' checked')+'>'+
+      '<input type="text" class="ch-name" value="'+name+'">'+
+      '<input type="number" class="ch-reach" value="'+reach+'" min="0" step="1000">'+
+      '<input type="number" class="ch-ctr" value="'+ctr+'" min="0" step="0.1">'+
+      '<span class="clk">0</span><button class="ch-del" title="削除">×</button>';
+    channelsEl.appendChild(d);
+    d.querySelector('.ch-del').addEventListener('click',function(){d.remove();compute();});
+    d.querySelector('.ch-on').addEventListener('change',function(){d.classList.toggle('off',!this.checked);compute();});
+    d.querySelectorAll('input').forEach(function(i){i.addEventListener('input',compute);});
+  }
+  function loadChannels(list){channelsEl.innerHTML='';list.forEach(function(c){chRow(c[0],c[1],c[2],true);});}
+
+  var ids=['line','dl','pay','churn','book','appmix','s30','s50','t3','t5','target'];
+  var el={}; ids.forEach(function(id){el[id]=document.getElementById(id);});
+  function yen(n){return '¥'+Math.round(n).toLocaleString();}
+  function num(n){return Math.round(n).toLocaleString();}
+  function n1(n){return (Math.round(n*10)/10).toLocaleString();}
+
+  function compute(){
+    var line=+el.line.value/100, dl=+el.dl.value/100, pay=+el.pay.value/100,
+        churn=+el.churn.value/100, book=+el.book.value/100, appmix=+el.appmix.value/100;
+    document.getElementById('v-line').textContent=el.line.value+'%';
+    document.getElementById('v-dl').textContent=el.dl.value+'%';
+    document.getElementById('v-pay').textContent=(+el.pay.value)+'%';
+    document.getElementById('v-churn').textContent=(+el.churn.value)+'%';
+    document.getElementById('v-book').textContent=(+el.book.value)+'%';
+    document.getElementById('v-appmix').textContent=el.appmix.value+'%';
+    document.getElementById('v-target').textContent=yen(+el.target.value);
+
+    var totalClicks=0, totalReach=0;
+    document.querySelectorAll('.ch-row').forEach(function(r){
+      var on=r.querySelector('.ch-on').checked, reach=+r.querySelector('.ch-reach').value||0, ctr=+r.querySelector('.ch-ctr').value||0;
+      var clk=on?reach*ctr/100:0; r.querySelector('.clk').textContent=num(clk);
+      if(on){totalClicks+=clk;totalReach+=reach;}
+    });
+    var lp=totalClicks, lineR=lp*line, dlR=lineR*dl, newApp=dlR*pay, bookings=lineR*book;
+
+    var top=Math.max(lp,1);
+    function setStep(n,b,v){document.getElementById(n).textContent=n1(v);document.getElementById(b).style.width=Math.max(3,v/top*100)+'%';}
+    setStep('n-lp','b-lp',lp); setStep('n-lineR','b-lineR',lineR); setStep('n-dlR','b-dlR',dlR);
+    setStep('n-newpay','b-newpay',newApp); setStep('n-book','b-book',bookings);
+
+    // App tiers
+    var new2980=newApp*appmix, new4980=newApp*(1-appmix);
+    var acc2980=0, acc4980=0, series={};
+    for(var m=1;m<=12;m++){acc2980=acc2980*(1-churn)+new2980; acc4980=acc4980*(1-churn)+new4980; series[m]=acc2980+acc4980;}
+    var steady=churn>0?newApp/churn:0;
+    document.getElementById('accnote').innerHTML='<b>App有料会員（累積獲得社数）</b>：3ヶ月 '+num(series[3])+' ／ 6ヶ月 '+num(series[6])+' ／ 12ヶ月 '+num(series[12])+' ／ 定常 '+num(steady)+' 人　（＝当月獲得÷チャーンレート）';
+
+    // Session mix normalize
+    var s=[+el.s30.value||0,+el.s50.value||0,+el.t3.value||0,+el.t5.value||0], ss=s[0]+s[1]+s[2]+s[3]; if(ss<=0){s=[1,1,1,1];ss=4;}
+    var b30=bookings*s[0]/ss, b50=bookings*s[1]/ss, bt3=bookings*s[2]/ss, bt5=bookings*s[3]/ss;
+
+    var salA=acc2980*PRICE.app2980, salB=acc4980*PRICE.app4980;
+    var salS30=b30*PRICE.s30, salS50=b50*PRICE.s50, salT3=bt3*PRICE.t3, salT5=bt5*PRICE.t5;
+    var appSales=salA+salB, sessSales=salS30+salS50+salT3+salT5, total=appSales+sessSales;
+
+    var rows=[
+      ['mid','Online session','','','','',''],
+      ['','','a. 単発30min.','人',n1(b30),'—',yen(PRICE.s30),yen(salS30)],
+      ['','','b. 単発50min.','人',n1(b50),'—',yen(PRICE.s50),yen(salS50)],
+      ['','','c. チケット制3枚','人',n1(bt3),'—',yen(PRICE.t3),yen(salT3)],
+      ['','','c. チケット制5枚','人',n1(bt5),'—',yen(PRICE.t5),yen(salT5)],
+      ['mid','Application（App）','','','','',''],
+      ['','','b. 月額2,980円','人',n1(new2980),num(acc2980),yen(PRICE.app2980),yen(salA)],
+      ['','','a. 月額4,980円','人',n1(new4980),num(acc4980),yen(PRICE.app4980),yen(salB)]
+    ];
+    var body=document.getElementById('xls-body'); body.innerHTML='';
+    rows.forEach(function(r){
+      var tr=document.createElement('tr');
+      if(r[0]==='mid'){tr.innerHTML='<td class="l mid" colspan="7">'+r[1]+'</td>';}
+      else{tr.innerHTML='<td class="l"></td><td class="l">'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td><td>'+r[7]+'</td>';}
+      body.appendChild(tr);
+    });
+    var tot=document.createElement('tr'); tot.className='total';
+    tot.innerHTML='<td class="l" colspan="6">上記合計（売上／月・12ヶ月後）</td><td>'+yen(total)+'</td>';
+    body.appendChild(tot);
+
+    document.getElementById('k-app').textContent=yen(appSales);
+    document.getElementById('k-sess').textContent=yen(sessSales);
+    document.getElementById('k-total').textContent=yen(total);
+
+    var target=+el.target.value;
+    var reqReach=total>0?totalReach*target/total:0;
+    document.getElementById('r-reach').textContent=total>0?num(reqReach):'—';
+
+    var planYear=250000, cmp=document.getElementById('compare');
+    cmp.innerHTML='事業計画Excelの<b>初年度 売上 約¥250,000（年間）</b>に対し、この設定では <b>12ヶ月後の月商 '+yen(total)+'</b>。'+
+      (total>=planYear?'月商だけで計画の年間売上を超える想定（＝計画は保守的、ただしリーチ達成が前提）。':'計画の年間売上に近づけるには、リーチや課金率の引き上げが必要です。');
+  }
+
+  document.getElementById('addch').addEventListener('click',function(){chRow('新チャネル',10000,1.5,true);compute();});
+  ids.forEach(function(id){el[id].addEventListener('input',compute);});
+  document.querySelectorAll('.pt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var key=btn.getAttribute('data-p'), p=patterns[key];
+      loadChannels(p.ch);
+      el.line.value=p.line; el.dl.value=p.dl; el.pay.value=p.pay; el.churn.value=p.churn; el.book.value=p.book;
+      document.querySelectorAll('.pt').forEach(function(b){b.classList.remove('on');});
+      btn.classList.add('on'); renderDesc(key); compute();
+    });
+  });
+  document.querySelector('.pt[data-p="p1"]').click();
+})();
+</script>
+
+</body>
+</html>
