@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>totonoi ── 第一稿</title>
+<style>
+  :root{color-scheme:light;--cream:#F6EFE7;--cream-2:#FBF6EF;--cream-3:#FDFAF5;--blush-wash:#F3DED6;--sage-wash:#E4EADF;
+    --rose:#C67E6E;--rose-deep:#B26A5A;--sage-deep:#5D7462;--ink:#43352F;--ink-soft:#8C7A70;--ink-faint:#B3A498;
+    --line:rgba(122,92,80,.16);--shadow:0 20px 50px -28px rgba(83,54,44,.4);
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Songti SC",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,system-ui,sans-serif;}
+  *{box-sizing:border-box;}body{margin:0;}
+  .page{font-family:var(--sans);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;
+    background:radial-gradient(700px 400px at 90% 115%,var(--blush-wash),transparent 55%),radial-gradient(600px 400px at 5% 100%,var(--sage-wash),transparent 55%),linear-gradient(180deg,var(--cream-2),var(--cream));
+    padding:clamp(22px,5vw,46px) clamp(16px,4vw,30px) 60px;}
+  .wrap{max-width:620px;margin:0 auto;}
+  .eyebrow{font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose-deep);font-weight:700;margin:0 0 12px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,5vw,2rem);margin:0 0 10px;letter-spacing:.02em;}
+  .lead{margin:0 0 8px;color:var(--ink-soft);font-size:.95rem;}
+  .steps{background:var(--cream-3);border:1px solid var(--line);border-radius:16px;padding:15px 18px;margin:18px 0 26px;font-size:.86rem;color:var(--ink);}
+  .steps b{color:var(--rose-deep);}
+  .cards{display:flex;flex-direction:column;gap:14px;}
+  .card{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;background:var(--cream-3);
+    border:1px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow);transition:transform .14s,border-color .2s;}
+  .card:hover{transform:translateY(-2px);border-color:var(--rose);}
+  .num{font-family:var(--serif);color:var(--rose-deep);width:40px;height:40px;border-radius:50%;border:1.5px solid var(--blush-wash);
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:#fff;font-size:1.1rem;}
+  .info{min-width:0;flex:1;}
+  .tag{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.06em;color:var(--sage-deep);background:var(--sage-wash);border-radius:999px;padding:3px 10px;margin-bottom:6px;}
+  .info h2{font-family:var(--serif);font-weight:600;font-size:1.12rem;margin:0 0 3px;}
+  .info p{margin:0;font-size:.82rem;color:var(--ink-soft);}
+  .arrow{color:var(--rose);font-size:1.3rem;flex:0 0 auto;}
+  .foot{margin-top:26px;font-size:.76rem;color:var(--ink-faint);line-height:1.7;}
+</style>
+</head>
+<body>
+
+<div class="page"><div class="wrap">
+  <p class="eyebrow">totonoi — 第一稿 / first draft</p>
+  <h1>まだ“たたき台”ですが、<br>かたちにしてみました。</h1>
+  <p class="lead">いただいた事業計画書をもとに作った、実際に触れる試作です。</p>
+  <div class="steps"><b>見てもらう前に、ひとつだけ。</b><br>文章・価格・写真・問いは<b>すべて仮</b>です。完成品ではなく“方向性のたたき台”なので、「ここは違う」「これは好き」を遠慮なく教えてください。スマホでそのまま動きます。</div>
+  <div class="cards">
+    <a class="card" href="./concept.html"><div class="num">1</div><div class="info"><span class="tag">コンセプト</span><h2>世界観（1枚）</h2><p>totonoiが何を目指すのか。まずはここから。</p></div><span class="arrow">→</span></a>
+    <a class="card" href="./free.html"><div class="num">2</div><div class="info"><span class="tag">無料タブ</span><h2>アプリの土台</h2><p>今日の問い・ジャーナル・コラム・イベント・予約。</p></div><span class="arrow">→</span></a>
+    <a class="card" href="./paid.html"><div class="num">3</div><div class="info"><span class="tag">有料プラン</span><h2>課金の中身</h2><p>AI対話・感情分析・ワーク・つながり・料金比較。</p></div><span class="arrow">→</span></a>
+  </div>
+  <p class="foot">totonoi ／ 事業計画 第一稿。忌憚のないご意見をお待ちしています。</p>
+</div></div>
+</body>
+</html>
