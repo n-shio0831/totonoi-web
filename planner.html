@@ -129,6 +129,24 @@
   .gloss dt span{font-weight:400;color:var(--ink-faint);font-size:.74rem;margin-left:6px;}
   .gloss dd{margin:0;font-size:.82rem;color:var(--ink-soft);line-height:1.6;}
   .gloss .eg{color:var(--sage-deep);}
+
+  .pnl-inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;margin-bottom:14px;}
+  @media (max-width:560px){.pnl-inputs{grid-template-columns:1fr;}}
+  .pnl-group h4{font-size:.82rem;margin:0 0 8px;color:var(--ink);padding-bottom:5px;border-bottom:1px solid var(--line);}
+  .pnl-group label{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.8rem;color:var(--ink-soft);margin-bottom:8px;}
+  .pnl-group input{width:104px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px;text-align:right;font-size:.82rem;font-variant-numeric:tabular-nums;flex:0 0 auto;}
+  table.pnl-table td{font-size:.88rem;padding:8px 8px;}
+  table.pnl-table tr.sub td{color:var(--sage-deep);}
+  table.pnl-table tr.op td{font-weight:700;font-size:1rem;border-top:2px solid var(--blush);}
+  table.pnl-table .neg{color:#b5504a;}
+  table.pnl-table .pos{color:var(--sage-deep);}
+
+  .prep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px 22px;margin-top:6px;}
+  .pcol h4{font-size:.86rem;margin:0 0 8px;display:flex;align-items:center;gap:7px;}
+  .pcol h4::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--rose);}
+  .pcol ul{margin:0;padding-left:1.05em;font-size:.82rem;color:var(--ink-soft);line-height:1.6;}
+  .pcol li{margin-bottom:4px;}
+  .pcol li b{color:var(--ink);}
 </style>
 </head>
 <body>
@@ -157,7 +175,7 @@
       <!-- LEFT: routes -->
       <div class="card">
         <h2>① 流入経路（自由に編集）</h2>
-        <p class="sub">チェックでON/OFF、数値は直接編集、×で削除、下のボタンで追加。</p>
+        <p class="sub">チェックでON/OFF、数値は直接編集、×で削除、下のボタンで追加。<br>※初期値は<b>立ち上げ期の目安（小さめ）</b>。フォロワーが増えるほどリーチは伸びます。⑦は広告で買うリーチ（＝広告費が発生）。</p>
         <div class="ch-head"><span></span><span>チャネル</span><span>リーチ/月</span><span>CTR%</span><span>クリック</span><span></span></div>
         <div id="channels"></div>
         <button class="addch" id="addch">＋ チャネルを追加</button>
@@ -192,7 +210,7 @@
         </div>
         <div class="rev">
           <h3>③ 逆算：目標売上から必要リーチを出す</h3>
-          <div class="field" style="margin-bottom:6px;"><div class="top"><label>目標 売上（月次）</label><span class="val" id="v-target">¥500,000</span></div><input type="range" id="target" min="100000" max="3000000" step="50000" value="500000"></div>
+          <div class="field" style="margin-bottom:6px;"><div class="top"><label>目標 売上（月次）</label><span class="val" id="v-target">¥200,000</span></div><input type="range" id="target" min="50000" max="3000000" step="50000" value="200000"></div>
           <div class="rrow"><span><b>必要な 月間リーチ合計</b>（現状比で比例）</span><span class="rv" id="r-reach">0</span></div>
         </div>
         <div class="compare" id="compare"></div>
@@ -217,6 +235,69 @@
         <div class="mi"><label>チケット制5枚</label><input type="number" id="t5" value="15" min="0"></div>
       </div>
       <p class="pricebox"><b>単価（事業計画Excel準拠・固定）</b>　Application：月額2,980円／月額4,980円　｜　Online session：単発30min.5,000円／単発50min.8,000円／チケット制3枚23,000円／チケット制5枚37,000円</p>
+    </div>
+
+    <!-- P&L -->
+    <div class="card">
+      <h2>⑤ 収支計画表（原価・販管費・営業利益）</h2>
+      <p class="sub">上の売上から費用を引いて営業利益まで。項目は事業計画Excel（原価・販管費・粗利・営業利益・売上高営業利益率）に対応。数値は編集できます（月次）。</p>
+      <div class="pnl-inputs">
+        <div class="pnl-group">
+          <h4>原価（売上・利用に応じて変動）</h4>
+          <label>決済・ストア手数料（％）<input type="number" id="feePct" value="4" min="0" step="0.1"></label>
+          <label>AI・インフラ原価（円/有料会員・月）<input type="number" id="aiCost" value="200" min="0" step="10"></label>
+          <label>セッション原価（円/予約）<input type="number" id="sessCost" value="0" min="0" step="100"></label>
+        </div>
+        <div class="pnl-group">
+          <h4>販管費（固定・円/月）</h4>
+          <label>広告費<input type="number" id="adCost" value="0" min="0" step="1000"></label>
+          <label>ツール費（LINE公式・デザイン等）<input type="number" id="toolCost" value="5000" min="0" step="500"></label>
+          <label>開発・保守<input type="number" id="devCost" value="0" min="0" step="1000"></label>
+          <label>その他<input type="number" id="otherCost" value="3000" min="0" step="500"></label>
+        </div>
+      </div>
+      <div class="xls-wrap">
+        <table class="xls pnl-table"><tbody id="pnl-body"></tbody></table>
+      </div>
+      <p class="pricebox" id="pnl-note"></p>
+    </div>
+
+    <!-- Preparation -->
+    <div class="card prep">
+      <h2>⑥ 事業を実現・成功させるための準備</h2>
+      <p class="sub">この計画を「動く事業」にするために、揃えるべきもの。</p>
+      <div class="prep-grid">
+        <div class="pcol"><h4>制度・法務・信頼</h4><ul>
+          <li><b>事業の器</b>（親会社／開業届・屋号）</li>
+          <li><b>特定商取引法の表記</b>（サブスク・予約の販売に必須）</li>
+          <li><b>利用規約・プライバシーポリシー</b>（ジャーナル・感情ログ＝個人情報）</li>
+          <li><b>非医療の明示・免責</b>／賠償責任保険の検討</li>
+          <li>コミュニティ運用規約（トラブル対策）</li>
+        </ul></div>
+        <div class="pcol"><h4>お金・決済</h4><ul>
+          <li><b>Stripe</b>（人的サービス・Web決済）／App内課金の設計</li>
+          <li>会計・確定申告（freee等）</li>
+          <li>初期資金・運転資金／（広告を使うなら）広告予算</li>
+          <li>この収支表の前提を実測で更新する運用</li>
+        </ul></div>
+        <div class="pcol"><h4>プロダクト</h4><ul>
+          <li><b>アプリ開発</b>（あなた）／App Store・Google Play登録</li>
+          <li><b>予約＋決済フロー</b>（Stripe＋日程調整）</li>
+          <li>コンテンツ在庫：今日の問い100問／コラム／診断設問</li>
+          <li>LINE公式アカウント＋ステップ配信</li>
+        </ul></div>
+        <div class="pcol"><h4>集客・運用</h4><ul>
+          <li>選んだ経路のSNSアカウント／プロフィールLP</li>
+          <li>投稿の運用体制（誰がいつ作るか）・自動化</li>
+          <li><b>計測</b>（登録率・DL率・課金率のトラッキング）</li>
+        </ul></div>
+        <div class="pcol"><h4>検証・経営</h4><ul>
+          <li><b>需要の一次検証</b>（友人が数件セッションを取れるか）</li>
+          <li>KPIモニタリング（このツールの前提を実数値に）</li>
+          <li>友人との役割・報酬の取り決め（あなたの関与）</li>
+          <li>顔出し可否など、差別化の前提の確定</li>
+        </ul></div>
+      </div>
     </div>
 
     <div class="card gloss">
@@ -248,13 +329,13 @@
   var PRICE={app2980:2980,app4980:4980,s30:5000,s50:8000,t3:23000,t5:37000};
 
   var patterns={
-    p1:{ch:[['X',60000,2.2],['note',15000,1.5]],line:24,dl:30,pay:7,churn:9,book:2},
-    p2:{ch:[['Instagram',70000,2.5],['X',20000,1.8]],line:26,dl:32,pay:8,churn:8,book:2},
-    p3:{ch:[['TikTok',90000,2.2],['Instagram（リール）',50000,2.4]],line:22,dl:28,pay:8,churn:7,book:4},
-    p4:{ch:[['note',25000,2.5],['X',20000,1.5]],line:20,dl:30,pay:10,churn:6,book:4},
-    p5:{ch:[['X',60000,2.5],['Instagram',60000,2.5],['TikTok',40000,2]],line:35,dl:26,pay:6,churn:10,book:2},
-    p6:{ch:[['紹介・口コミ',8000,8],['Instagram',15000,2]],line:40,dl:45,pay:14,churn:5,book:8},
-    p7:{ch:[['Meta広告',100000,1.8],['Instagram',30000,2]],line:28,dl:30,pay:8,churn:8,book:2}
+    p1:{ch:[['X',4000,2.5],['note',1500,2]],line:24,dl:30,pay:7,churn:9,book:2},
+    p2:{ch:[['Instagram',3000,2.5],['X',1500,2]],line:26,dl:32,pay:8,churn:8,book:2},
+    p3:{ch:[['TikTok',8000,2.5],['Instagram（リール）',4000,2.5]],line:22,dl:28,pay:8,churn:7,book:4},
+    p4:{ch:[['note',2000,2.5],['X',1500,1.8]],line:20,dl:30,pay:10,churn:6,book:4},
+    p5:{ch:[['X',4000,2.5],['Instagram',4000,2.5],['TikTok',3000,2]],line:35,dl:26,pay:6,churn:10,book:2},
+    p6:{ch:[['紹介・口コミ',500,10],['Instagram',1000,2.5]],line:40,dl:45,pay:14,churn:5,book:8},
+    p7:{ch:[['Meta広告',15000,1.8],['Instagram',2000,2]],line:28,dl:30,pay:8,churn:8,book:2}
   };
   var descs={
     p1:{name:'① X中心・毎日の問い型',m:['低コスト・毎日投稿を自動化しやすい','テキストだけで作れる','アプリの「今日の問い」と素材が共通','リポストで新規に届く'],d:['立ち上がりが遅い（フォロワー依存）','1投稿の寿命が短い','働く女性層はInstagramより薄め'],p:['Xアカウント','問いバンク（100問〜）','投稿テンプレ／自動投稿','プロフにLPリンク']},
@@ -285,7 +366,7 @@
   }
   function loadChannels(list){channelsEl.innerHTML='';list.forEach(function(c){chRow(c[0],c[1],c[2],true);});}
 
-  var ids=['line','dl','pay','churn','book','appmix','s30','s50','t3','t5','target'];
+  var ids=['line','dl','pay','churn','book','appmix','s30','s50','t3','t5','target','feePct','aiCost','sessCost','adCost','toolCost','devCost','otherCost'];
   var el={}; ids.forEach(function(id){el[id]=document.getElementById(id);});
   function yen(n){return '¥'+Math.round(n).toLocaleString();}
   function num(n){return Math.round(n).toLocaleString();}
@@ -362,6 +443,30 @@
     var planYear=250000, cmp=document.getElementById('compare');
     cmp.innerHTML='事業計画Excelの<b>初年度 売上 約¥250,000（年間）</b>に対し、この設定では <b>12ヶ月後の月商 '+yen(total)+'</b>。'+
       (total>=planYear?'月商だけで計画の年間売上を超える想定（＝計画は保守的、ただしリーチ達成が前提）。':'計画の年間売上に近づけるには、リーチや課金率の引き上げが必要です。');
+
+    // ===== P&L (収支計画表) =====
+    var feePct=+el.feePct.value/100, aiCost=+el.aiCost.value||0, sessCost=+el.sessCost.value||0;
+    var hankan=(+el.adCost.value||0)+(+el.toolCost.value||0)+(+el.devCost.value||0)+(+el.otherCost.value||0);
+    var members12=series[12];
+    var genka = total*feePct + members12*aiCost + bookings*sessCost;
+    var arari = total - genka;
+    var eigyo = total - genka - hankan;
+    var margin = total>0 ? eigyo/total*100 : 0;
+    function pmoney(v){var neg=v<0; return '<span class="'+(neg?'neg':'pos')+'">'+(neg?'−¥'+num(-v):'¥'+num(v))+'</span>';}
+    var pnl=[
+      ['売上（合計・12ヶ月後）','¥'+num(total),''],
+      ['原価','−¥'+num(genka),''],
+      ['粗利','¥'+num(arari),'sub'],
+      ['販管費','−¥'+num(hankan),''],
+      ['営業利益',pmoney(eigyo),'op'],
+      ['売上高営業利益率','<span class="'+(eigyo>=0?'pos':'neg')+'">'+n1(margin)+'%</span>','op']
+    ];
+    var pb=document.getElementById('pnl-body'); pb.innerHTML='';
+    pnl.forEach(function(r){var tr=document.createElement('tr'); if(r[2])tr.className=r[2];
+      tr.innerHTML='<td class="l">'+r[0]+'</td><td>'+r[1]+'</td>'; pb.appendChild(tr);});
+    document.getElementById('pnl-note').innerHTML = eigyo>=0
+      ? '✅ この設定では<b>営業黒字</b>（月 '+yen(eigyo)+'）。売上を伸ばすほど利益率が上がります。'
+      : '⚠️ この設定では<b>営業赤字</b>（月 −'+yen(-eigyo)+'）。立ち上げ期は赤字が普通です。売上（リーチ・課金率）を上げるか、固定の販管費を下げると黒字化します。';
   }
 
   document.getElementById('addch').addEventListener('click',function(){chRow('新チャネル',10000,1.5,true);compute();});
