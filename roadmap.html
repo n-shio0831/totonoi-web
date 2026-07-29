@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>totonoi 収益化ロードマップ（分岐図）</title>
+<style>
+  :root{
+    color-scheme: light;
+    --cream:#F6EFE7; --cream-2:#FBF6EF; --cream-3:#FDFAF5;
+    --blush:#E7BCAF; --blush-wash:#F3DED6;
+    --rose:#C67E6E; --rose-deep:#B26A5A;
+    --sage:#7E9480; --sage-deep:#5D7462; --sage-wash:#E4EADF;
+    --gold:#C9A36A; --red:#B5504A;
+    --ink:#43352F; --ink-soft:#8C7A70; --ink-faint:#B3A498;
+    --line:rgba(122,92,80,.16);
+    --shadow:0 24px 60px -32px rgba(83,54,44,.4);
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Songti SC",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .page{font-family:var(--sans);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;
+    background:radial-gradient(800px 460px at 92% 116%,var(--blush-wash),transparent 55%),radial-gradient(640px 440px at 4% 98%,var(--sage-wash),transparent 55%),linear-gradient(180deg,var(--cream-2),var(--cream));
+    padding:clamp(24px,5vw,52px) clamp(16px,4vw,44px) 70px;}
+  .wrap{max-width:1080px;margin:0 auto;}
+  .eyebrow{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose-deep);font-weight:700;margin:0 0 12px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.15rem);margin:0 0 10px;letter-spacing:.02em;text-wrap:balance;}
+  .lead{margin:0;color:var(--ink-soft);font-size:clamp(.96rem,1.5vw,1.08rem);max-width:64ch;}
+  .principle{margin:16px 0 0;background:var(--cream-3);border:1px solid var(--line);border-left:3px solid var(--rose);border-radius:12px;padding:12px 16px;font-size:.86rem;color:var(--ink);}
+  .principle b{color:var(--rose-deep);}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px 12px;margin:20px 0 4px;font-size:.78rem;color:var(--ink-soft);}
+  .lg{display:inline-flex;align-items:center;gap:7px;background:var(--cream-3);border:1px solid var(--line);border-radius:999px;padding:5px 12px;}
+  .sw{width:11px;height:11px;border-radius:3px;flex:0 0 auto;}
+  .s-phase{background:#E7BCAF;}.s-dec{background:#C67E6E;}.s-go{background:#7E9480;}.s-pivot{background:#C9A36A;}.s-stop{background:#B5504A;}.s-win{background:#B26A5A;}.s-aud{background:#7C89A6;}
+
+  .diagram{margin-top:18px;background:var(--cream-3);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:14px;overflow-x:auto;}
+  .diagram pre.mermaid{background:transparent;margin:0;min-width:760px;}
+
+  .notes{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .note{background:var(--cream-3);border:1px solid var(--line);border-radius:16px;padding:15px 17px;box-shadow:0 10px 26px -20px rgba(83,54,44,.4);}
+  .note h3{margin:0 0 6px;font-size:.92rem;display:flex;align-items:center;gap:8px;}
+  .note h3 .tag{font-size:.62rem;font-weight:700;color:#fff;border-radius:999px;padding:2px 9px;}
+  .note p{margin:0;font-size:.84rem;color:var(--ink-soft);}
+  .foot{margin-top:22px;font-size:.76rem;color:var(--ink-faint);}
+</style>
+</head>
+<body>
+
+
+<div class="page">
+  <div class="wrap">
+    <p class="eyebrow">totonoi ／ 収益化ロードマップ</p>
+    <h1>テスト結果で道が分かれる、収益化までの地図</h1>
+    <p class="lead">フェーズ0（¥2,000→¥5,000のはしごテスト）の結果で、GO／価値ギャップ／需要が弱い、に分岐します。作り込み（アプリ開発）は、検証を越えた後だけ。</p>
+    <div class="principle">原則：<b>人（セッション）で先に稼ぎ、アプリは後追い。</b>各ゲートを越えるまで次に進まない＝需要が無いのに作る事故を防ぐ。撤退基準は<b>今</b>合意しておく（サンクコストで判断を誤らないため）。</div>
+
+    <div class="legend">
+      <span class="lg"><span class="sw s-phase"></span>フェーズ（前進）</span>
+      <span class="lg"><span class="sw s-dec"></span>判定・ゲート</span>
+      <span class="lg"><span class="sw s-go"></span>GO（需要あり）</span>
+      <span class="lg"><span class="sw s-pivot"></span>ピボット（作り直し）</span>
+      <span class="lg"><span class="sw s-stop"></span>STOP（撤退/再定義）</span>
+      <span class="lg"><span class="sw s-win"></span>収益化</span>
+      <span class="lg"><span class="sw s-aud"></span>発信・育成（並走）</span>
+    </div>
+
+    <div class="diagram">
+<pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'fontFamily':'"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif','fontSize':'13px','lineColor':'#B39B8E','primaryBorderColor':'#C67E6E'}}}%%
+flowchart TD
+  PRE["<b>前提確認</b><br/>友人の資格を確定<br/>公認心理師／臨床心理士か？"]:::pre
+  PRE --> T0["<b>フェーズ0：検証</b>　6〜8週・費用上限¥2万<br/>テストA：お試し¥2,000 → 本価格¥5,000 のはしご<br/>＋テストC：LPで ¥2,000／¥5,000 を出し分け"]:::phase
+  T0 --> D{"結果は？"}:::dec
+
+  D -->|お試し客が¥5,000でも継続| GO["🟢 GO<br/>需要＋支払意思あり"]:::go
+  D -->|安価は来るが¥5,000は続かない| GAP["🟡 価値ギャップ"]:::pivot
+  D -->|安くても誰も来ない| WEAK["🔴 需要が弱い"]:::stop
+  D -->|¥5,000だけ反応・稀| PREM["プレミアム訴求が有効"]:::pivot
+
+  GAP --> RE["価値・訴求・価格を再設計<br/>何が¥5,000に見合わないか"]:::action
+  RE --> T0
+  PREM --> POS["価格・見せ方を調整"]:::action
+  POS --> GO
+  WEAK --> RD{"事業を再定義できる？<br/>対象／オファーを変える"}:::dec
+  RD -->|Yes 別セグメント/別オファー| T0
+  RD -->|No| ENDX["撤退<br/>傷は浅い＝安く学べた"]:::endx
+
+  GO --> P1["<b>フェーズ1：受け皿</b><br/>LP＋LINE公式／セッションを継続的に回す<br/>人で稼ぐ・アプリはまだ作らない"]:::phase
+  P1 --> AUD["📣 <b>発信・オーディエンス育成（並走：フェーズ1〜3）</b><br/>フェーズ0ではやらない・1チャネルに絞る<br/>今日の問いで素材共通化／KPIはフォロワー数でなく リーチ→LINE→課金"]:::aud
+  AUD -.->|リーチを供給| P2
+  AUD -.->|勝ち筋に集中投下| P3
+  P1 --> G1{"毎月コンスタントに<br/>セッションが入る？"}:::dec
+  G1 -->|No| RE
+  G1 -->|Yes| P2["<b>フェーズ2：アプリ化＋課金</b><br/>iOS化・AI/決済のバックエンド<br/>無料＋有料1プラン"]:::phase
+  P2 --> G2{"無料→有料へ転換？<br/>チャーンは許容範囲？"}:::dec
+  G2 -->|No| CH["習慣機能・オンボーディングを改善"]:::action
+  CH --> P2
+  G2 -->|Yes| P3["<b>フェーズ3：拡大・最適化</b><br/>解約対策・2つ目の有料プラン<br/>伸びる経路に集中・広告テスト"]:::phase
+  P3 --> G3{"LTV ＞ CAC？"}:::dec
+  G3 -->|No| P3
+  G3 -->|Yes| WIN["💰 収益化<br/>費用回収＋友人の時間に報いる<br/>広告で加速可"]:::win
+
+  classDef pre fill:#F6EBDD,stroke:#C9A36A,color:#43352F;
+  classDef phase fill:#F3DED6,stroke:#B26A5A,color:#43352F;
+  classDef dec fill:#FBF6EF,stroke:#C67E6E,color:#43352F;
+  classDef go fill:#E4EADF,stroke:#5D7462,color:#2f3a33;
+  classDef pivot fill:#F6EBDD,stroke:#C9A36A,color:#6b5410;
+  classDef stop fill:#F3DAD5,stroke:#B5504A,color:#7a2e28;
+  classDef action fill:#FDFAF5,stroke:#B39B8E,color:#43352F;
+  classDef win fill:#C67E6E,stroke:#B26A5A,color:#ffffff;
+  classDef endx fill:#EAE4DD,stroke:#B3A498,color:#6b5f57;
+  classDef aud fill:#E3E7EE,stroke:#7C89A6,color:#3a4256;
+</pre>
+    </div>
+
+    <div class="notes">
+      <div class="note"><h3><span class="tag" style="background:#5D7462">🟢 GO</span>需要＋支払意思</h3><p>お試し(¥2,000)客が本価格(¥5,000)でも継続。他人が実価格で払う＝核が売れる。フェーズ1へ進み、人でのセッションを回す。</p></div>
+      <div class="note"><h3><span class="tag" style="background:#C9A36A">🟡 ギャップ</span>価値の作り直し</h3><p>安価は来るが¥5,000は続かない＝需要はあるが価値が届いていない。提供内容・見せ方・信用・価格を再設計してフェーズ0へ戻る。</p></div>
+      <div class="note"><h3><span class="tag" style="background:#B5504A">🔴 STOP</span>需要が弱い</h3><p>安くても誰も来ない＝最もシビアな結論。対象/オファーを変えて再定義できるかを判断。できなければ撤退（安く学べた）。</p></div>
+      <div class="note"><h3><span class="tag" style="background:#B26A5A">💰 収益化</span>ゴールの定義</h3><p>本ロードマップの「収益化」は<b>費用回収＋友人の時間に報いる</b>水準。スケール(月100万+)は別問題で難易度は上がる。</p></div>
+      <div class="note"><h3><span class="tag" style="background:#7C89A6">📣 発信</span>並走の成長エンジン</h3><p>フォロワー集めは<b>必須だが始動装置ではない</b>。フェーズ0では需要検証を優先し、フェーズ1から並走で開始→フェーズ3で勝ち筋に集中投下。<b>KPIはフォロワー数でなくリーチ→LINE→課金</b>。人セッションは時間上限があるため、初期は大量フォロワーは不要。</p></div>
+    </div>
+
+    <p class="foot">※ すべて仮説・意思決定の枠組みです。検証で得た実数値でロードマップを更新してください。フェーズ2の「アプリ化」はここでも“人でのセッションが回ってから”に位置づけています。</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true, securityLevel:"loose"});</script>
+</body>
+</html>
