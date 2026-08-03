@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>totonoi 3者スイムレーン・ロードマップ</title>
+<style>
+  :root{
+    color-scheme: light;
+    --cream:#F6EFE7; --cream-2:#FBF6EF; --cream-3:#FDFAF5;
+    --blush:#E7BCAF; --blush-wash:#F3DED6;
+    --rose:#C67E6E; --rose-deep:#B26A5A;
+    --sage:#7E9480; --sage-deep:#5D7462; --sage-wash:#E4EADF;
+    --gold:#C9A36A; --gold-wash:#F1E7D3;
+    --peri:#7C89A6; --peri-wash:#E3E7EE;
+    --ink:#43352F; --ink-soft:#8C7A70; --ink-faint:#B3A498;
+    --line:rgba(122,92,80,.16);
+    --shadow:0 24px 60px -32px rgba(83,54,44,.4);
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Songti SC",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .page{font-family:var(--sans);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;
+    background:radial-gradient(800px 460px at 92% 116%,var(--blush-wash),transparent 55%),radial-gradient(640px 440px at 4% 98%,var(--sage-wash),transparent 55%),linear-gradient(180deg,var(--cream-2),var(--cream));
+    padding:clamp(24px,5vw,52px) clamp(16px,4vw,40px) 70px;}
+  .wrap{max-width:1200px;margin:0 auto;}
+  .eyebrow{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose-deep);font-weight:700;margin:0 0 12px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.1rem);margin:0 0 10px;letter-spacing:.02em;text-wrap:balance;}
+  .lead{margin:0;color:var(--ink-soft);font-size:clamp(.96rem,1.5vw,1.06rem);max-width:70ch;}
+  .pre{margin:14px 0 0;background:var(--cream-3);border:1px solid var(--line);border-left:3px solid var(--sage);border-radius:12px;padding:12px 16px;font-size:.85rem;color:var(--ink);}
+  .pre b{color:var(--sage-deep);}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px 12px;margin:18px 0 6px;font-size:.8rem;}
+  .lg{display:inline-flex;align-items:center;gap:8px;background:var(--cream-3);border:1px solid var(--line);border-radius:999px;padding:6px 14px;}
+  .lg .who{font-weight:700;}
+  .sw{width:12px;height:12px;border-radius:4px;flex:0 0 auto;}
+  .cA{background:var(--rose);}.cB{background:var(--gold);}.cME{background:var(--peri);}
+
+  .swim-wrap{margin-top:12px;overflow-x:auto;border-radius:20px;box-shadow:var(--shadow);border:1px solid var(--line);}
+  .swim{min-width:960px;display:grid;grid-template-columns:128px repeat(4,minmax(196px,1fr));background:var(--cream-3);}
+  .cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 13px;}
+  .cell:nth-child(5n){border-right:none;}
+
+  .corner{background:var(--cream-2);}
+  .ph{background:var(--cream-2);}
+  .ph .pn{font-family:var(--serif);font-weight:600;font-size:.98rem;color:var(--ink);}
+  .ph .pd{font-size:.7rem;color:var(--ink-soft);margin-top:2px;}
+  .ph .gate{margin-top:7px;font-size:.64rem;color:var(--rose-deep);background:var(--blush-wash);border-radius:8px;padding:3px 7px;display:inline-block;}
+
+  .lane{display:flex;flex-direction:column;justify-content:center;gap:2px;}
+  .lane.A{background:linear-gradient(90deg,rgba(198,126,110,.14),rgba(198,126,110,.03));border-left:4px solid var(--rose);}
+  .lane.B{background:linear-gradient(90deg,rgba(201,163,106,.16),rgba(201,163,106,.03));border-left:4px solid var(--gold);}
+  .lane.ME{background:linear-gradient(90deg,rgba(124,137,166,.16),rgba(124,137,166,.03));border-left:4px solid var(--peri);}
+  .lane .nm{font-family:var(--serif);font-weight:600;font-size:.95rem;}
+  .lane .rl{font-size:.68rem;color:var(--ink-soft);line-height:1.4;}
+
+  .task ul{margin:0;padding-left:1.05em;font-size:.79rem;color:var(--ink);line-height:1.55;}
+  .task li{margin-bottom:5px;}
+  .task li.hi{color:var(--rose-deep);font-weight:600;}
+  .task .b2b{display:inline-block;font-size:.6rem;font-weight:700;color:#fff;background:var(--gold);border-radius:5px;padding:1px 6px;margin-right:4px;vertical-align:middle;}
+  .rowA{background:rgba(198,126,110,.05);}
+  .rowB{background:rgba(201,163,106,.06);}
+  .rowME{background:rgba(124,137,166,.06);}
+  .gate-lab{background:var(--rose-deep);color:#fff;font-weight:700;font-size:.78rem;display:flex;align-items:center;line-height:1.4;}
+  .grow{background:#F5E6E0;border-top:2px solid var(--rose);}
+  .gate-cell .gt{font-weight:700;font-size:.74rem;color:var(--rose-deep);}
+  .gate-cell .gd{font-size:.72rem;color:var(--ink);margin:2px 0 6px;font-weight:600;}
+  .gate-cell .gm{font-size:.69rem;color:var(--ink-soft);margin-bottom:5px;line-height:1.45;}
+  .gate-cell .gm b,.gate-cell .gc b{color:var(--ink);}
+  .gate-cell .gc{font-size:.69rem;color:var(--sage-deep);background:var(--sage-wash);border-radius:7px;padding:5px 8px;line-height:1.45;}
+
+  .win{margin-top:18px;background:linear-gradient(90deg,var(--rose),var(--rose-deep));color:#fff;border-radius:16px;padding:16px 20px;box-shadow:var(--shadow);}
+  .win b{font-family:var(--serif);font-size:1.05rem;}
+  .win span{font-size:.86rem;opacity:.95;}
+
+  .notes{margin-top:22px;font-size:.82rem;color:var(--ink-soft);line-height:1.7;}
+  .notes b{color:var(--ink);}
+</style>
+</head>
+<body>
+
+
+<div class="page">
+  <div class="wrap">
+    <p class="eyebrow">totonoi ／ 3者スイムレーン・ロードマップ</p>
+    <h1>誰が・いつ・何をするか</h1>
+    <p class="lead">A（社長／公認心理師）・B（営業）・私（バックオフィス）の役割を、フェーズごとに並べた地図。★はB2B法人ルート。各フェーズの間には、<b>測定指標にもとづく意思決定ゲート（最下段）</b>を置く。着手前に、役割・持分・決定権の明文化を。</p>
+    <div class="pre">前提 <b>✅ A＝公認心理師</b>（国家資格）。<b>着手前に</b>「3者の役割・持分・決定権・報酬」を明文化（私が下書き→3者合意）。B2B法人はBのレーンで<b>フェーズ1から並走</b>。</div>
+
+    <div class="legend">
+      <span class="lg"><span class="sw cA"></span><span class="who">A</span>：社長・サービス提供（公認心理師）</span>
+      <span class="lg"><span class="sw cB"></span><span class="who">B</span>：営業</span>
+      <span class="lg"><span class="sw cME"></span><span class="who">私</span>：バックオフィス（開発・数字）</span>
+    </div>
+
+    <div class="swim-wrap">
+      <div class="swim">
+        <!-- header row -->
+        <div class="cell corner"></div>
+        <div class="cell ph"><div class="pn">フェーズ0：検証</div><div class="pd">〜2ヶ月・費用上限¥2万</div><span class="gate">ゲート：GO / 価値ギャップ / STOP</span></div>
+        <div class="cell ph"><div class="pn">フェーズ1：受け皿</div><div class="pd">2〜4ヶ月</div></div>
+        <div class="cell ph"><div class="pn">フェーズ2：アプリ化＋課金</div><div class="pd">4〜8ヶ月</div></div>
+        <div class="cell ph"><div class="pn">フェーズ3：拡大・最適化</div><div class="pd">8ヶ月〜</div></div>
+
+        <!-- Lane A -->
+        <div class="cell lane A"><div class="nm">A</div><div class="rl">社長・提供者<br>公認心理師</div></div>
+        <div class="cell task rowA"><ul><li class="hi">マーケットプレイス出品（公認心理師で登録）</li><li>¥5,000/¥8,000でセッション実測・モニター提供</li><li>感想・満足度を集める</li></ul></div>
+        <div class="cell task rowA"><ul><li>セッションを継続提供・品質を安定</li><li>コンテンツ監修（今日の問い・コラムの心理的妥当性）</li><li>非医療の線引きを設計</li></ul></div>
+        <div class="cell task rowA"><ul><li>アプリ体験・AI対話（ACT）を監修</li><li>免責・安全設計の監修</li></ul></div>
+        <div class="cell task rowA"><ul><li>提供のスケール限界を管理</li><li>必要なら他カウンセラーの監修・採用設計</li></ul></div>
+
+        <!-- Lane B -->
+        <div class="cell lane B"><div class="nm">B</div><div class="rl">営業</div></div>
+        <div class="cell task rowB"><ul><li class="hi">声かけ・直接営業でセッション枠を埋める</li><li>価格（¥5,000/¥8,000）への反応をヒアリング</li><li><span class="b2b">B2B</span>法人ニーズの初期リサーチ（EAP/健康経営）</li></ul></div>
+        <div class="cell task rowB"><ul><li>集客の主戦力（1チャネル or 直接営業）</li><li class="hi"><span class="b2b">B2B</span>法人開拓の本格化</li><li>紹介の仕組みづくり</li></ul></div>
+        <div class="cell task rowB"><ul><li>無料→有料への転換営業</li><li><span class="b2b">B2B</span>法人契約（福利厚生としてのアプリ）</li></ul></div>
+        <div class="cell task rowB"><ul><li>勝ち筋チャネルに集中投下</li><li><span class="b2b">B2B</span>法人パイプライン拡大</li><li>広告×営業の連携</li></ul></div>
+
+        <!-- Lane ME -->
+        <div class="cell lane ME"><div class="nm">私</div><div class="rl">バックオフィス<br>開発・数字</div></div>
+        <div class="cell task rowME"><ul><li>予約＋決済の最小構成（Stripe＋日程）</li><li>価格出し分けLP・計測</li><li class="hi">3者の役割/持分/決定権メモの下書き</li></ul></div>
+        <div class="cell task rowME"><ul><li>LP＋LINE公式の構築・運用</li><li>問いバンク・計測ダッシュボード</li><li>予約フローの整備</li></ul></div>
+        <div class="cell task rowME"><ul><li>iOSアプリ開発・バックエンド（Firebase/Vercel）</li><li>決済/サブスク・ストア申請</li><li>AI対話の実装</li></ul></div>
+        <div class="cell task rowME"><ul><li>解約対策・機能改善</li><li>KPI・原価/利益の管理（プランナー/Excel）</li></ul></div>
+
+        <!-- Decision gates -->
+        <div class="cell gate-lab grow">🚦 意思決定<br>＆測定指標</div>
+        <div class="cell gate-cell grow">
+          <div class="gt">▶ フェーズ0 → 1 判定</div>
+          <div class="gd">進む / 価値ギャップで再設計 / STOP</div>
+          <div class="gm"><b>指標</b>：他人からの有料予約数・¥5,000→¥8,000継続率・モニター→有料転換率・LP意向CTR・法人リード反応</div>
+          <div class="gc"><b>GO基準</b>：6週で有料予約≥3件／¥8,000継続≥30%／モニター転換≥30%</div>
+        </div>
+        <div class="cell gate-cell grow">
+          <div class="gt">▶ フェーズ1 → 2 判定</div>
+          <div class="gd">アプリ開発に進む / 改善ループ</div>
+          <div class="gm"><b>指標</b>：月間セッション数(安定)・LINE登録数と登録率・予約リピート率・法人商談数・粗利</div>
+          <div class="gc"><b>GO基準</b>：月◯件が3ヶ月継続／LINE登録が増加基調／リピート率≥30%</div>
+        </div>
+        <div class="cell gate-cell grow">
+          <div class="gt">▶ フェーズ2 → 3 判定</div>
+          <div class="gd">拡大投資する / 改善ループ</div>
+          <div class="gm"><b>指標</b>：無料→有料転換率・月次チャーン・MRR・課金会員数・法人契約社数</div>
+          <div class="gc"><b>GO基準</b>：転換率≥5%／チャーン≤8%／MRRが3ヶ月連続増</div>
+        </div>
+        <div class="cell gate-cell grow">
+          <div class="gt">▶ フェーズ3 → 収益化</div>
+          <div class="gd">スケール／広告で加速する</div>
+          <div class="gm"><b>指標</b>：LTV・CAC・LTV/CAC・営業利益・営業利益率</div>
+          <div class="gc"><b>GO基準</b>：LTV/CAC≥3／営業利益が黒字（プランナー⑤と接続）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="win"><b>💰 収益化</b>　<span>費用回収＋3者それぞれの貢献に報いる水準。D2C（アプリ）とB2B（法人）の二本立てで到達を狙う。</span></div>
+
+    <div class="notes">
+      <p><b>この図の使い方 ▸</b> 縦に見れば「各フェーズで誰が何をするか」、横に見れば「1人の役割の変化」。<b>フェーズ0</b>は3者フル稼働（A＝提供、B＝枠埋め、私＝仕組み＋構造の明文化）。<br>
+      <b>B2Bルート ▸</b> 営業のプロBがいるからこそ、法人（従業員ウェルビーイング/EAP）を<b>フェーズ1から並走</b>。D2Cの弱点（遅い立ち上がり）を補う。<br>
+      <b>最優先 ▸</b> 着手前の<b>役割・持分・決定権の明文化</b>（Bは私の上司・同一会社のため、就業規則の確認も）。ここが今いちばんの地雷。<br>
+      <b>意思決定ゲート ▸</b> フェーズは"勝手に進む"のではなく、<b>最下段の測定指標が基準を満たしたときだけ進む</b>。基準値（≥3件・チャーン≤8% 等）は<b>仮の目標</b>で、3者で最終合意を。指標は<b>集客プランナー（転換率・チャーン・LTV/CAC）とExcel（営業利益）</b>に直結し、実測値で更新していく。</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
