@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BARE. アプリ開発 資料</title>
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#F7F6F3; --paper-2:#FDFDFC; --paper-3:#EFEEE9;
+    --ink:#1C1B18; --ink-2:#4A4843; --ink-3:#8A8780; --ink-4:#B8B5AD;
+    --line:#DEDCD5; --line-2:#C9C6BD;
+    --slate:#35544F; --slate-2:#4E736D; --slate-wash:#E6EDEB;
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#16150F; --paper-2:#1D1C16; --paper-3:#232219;
+      --ink:#EDEBE4; --ink-2:#BAB7AE; --ink-3:#8A8780; --ink-4:#5E5B54;
+      --line:#2E2C25; --line-2:#3D3A32;
+      --slate:#7FB0A8; --slate-2:#5E8E86; --slate-wash:#1B2624;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#16150F; --paper-2:#1D1C16; --paper-3:#232219;
+    --ink:#EDEBE4; --ink-2:#BAB7AE; --ink-3:#8A8780; --ink-4:#5E5B54;
+    --line:#2E2C25; --line-2:#3D3A32;
+    --slate:#7FB0A8; --slate-2:#5E8E86; --slate-wash:#1B2624;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .page{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.75;
+    -webkit-font-smoothing:antialiased;min-height:100vh;padding:clamp(30px,6vw,64px) clamp(18px,5vw,32px) 80px;}
+  .wrap{max-width:620px;margin:0 auto;}
+  .mast{border-bottom:1.5px solid var(--ink);padding-bottom:18px;}
+  .mark{font-weight:600;font-size:clamp(1.5rem,5vw,2rem);letter-spacing:.16em;margin:0;}
+  .mark .dot{color:var(--slate);}
+  .tag{font-family:var(--serif);font-size:clamp(1rem,2.4vw,1.2rem);margin:9px 0 0;color:var(--ink-2);}
+  .lede{margin:22px 0 0;font-size:.92rem;color:var(--ink-2);}
+  .note{margin:18px 0 30px;background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--slate);
+    border-radius:4px;padding:14px 18px;font-size:.86rem;color:var(--ink-2);}
+  .note b{color:var(--ink);}
+  .cards{display:flex;flex-direction:column;gap:14px;}
+  .card{display:flex;gap:16px;align-items:center;text-decoration:none;color:inherit;background:var(--paper-2);
+    border:1px solid var(--line);border-radius:5px;padding:18px 20px;transition:transform .14s,border-color .2s;}
+  .card:hover{transform:translateY(-2px);border-color:var(--slate);}
+  .n{font-family:var(--serif);color:var(--slate);width:38px;height:38px;border:1px solid var(--slate-2);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--paper);font-size:.95rem;}
+  .info{flex:1;min-width:0;}
+  .k{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.1em;color:var(--slate);
+    background:var(--slate-wash);border-radius:2px;padding:2px 9px;margin-bottom:6px;}
+  .info h2{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin:0 0 3px;}
+  .info p{margin:0;font-size:.82rem;color:var(--ink-3);}
+  .ar{color:var(--slate);font-size:1.2rem;flex:0 0 auto;}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:.76rem;color:var(--ink-3);line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="page"><div class="wrap">
+  <header class="mast">
+    <p class="mark">BARE<span class="dot">.</span></p>
+    <p class="tag">アプリ開発｜検討資料</p>
+  </header>
+
+  <p class="lede">いただいた事業計画（全13シート）をもとに、アプリ側を2点にまとめました。</p>
+
+  <div class="note">
+    <b>お願い</b><br>
+    ①の末尾に、着手前に確認したい<b>10項目</b>があります。回答いただければ、正式なお見積もりを出せます。②は実際に触れる試作で、文言・数値・問いの内容はすべて仮です。
+  </div>
+
+  <div class="cards">
+    <a class="card" href="./scope.html">
+      <div class="n">1</div>
+      <div class="info">
+        <span class="k">スコープ</span>
+        <h2>開発スコープ定義書</h2>
+        <p>機能一覧・MVP/段階の線引き・工数の目安・要確認事項10項目</p>
+      </div>
+      <span class="ar">&rarr;</span>
+    </a>
+    <a class="card" href="./mock.html">
+      <div class="n">2</div>
+      <div class="info">
+        <span class="k">試作</span>
+        <h2>アプリモック</h2>
+        <p>Assessment 18問 → Day 7 課金 → Monthly → Booking の11画面。実際に操作できます</p>
+      </div>
+      <span class="ar">&rarr;</span>
+    </a>
+  </div>
+
+  <p class="foot">BARE. アプリ開発 検討資料 v1<br>スマホでもそのまま動きます。ご意見・修正点は遠慮なくお知らせください。</p>
+</div></div>
+</body>
+</html>

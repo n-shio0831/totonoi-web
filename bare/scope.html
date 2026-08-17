@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BARE. 開発スコープ定義書</title>
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#F7F6F3; --paper-2:#FDFDFC; --paper-3:#EFEEE9;
+    --ink:#1C1B18; --ink-2:#4A4843; --ink-3:#8A8780; --ink-4:#B8B5AD;
+    --line:#DEDCD5; --line-2:#C9C6BD;
+    --slate:#35544F; --slate-2:#4E736D; --slate-wash:#E6EDEB;
+    --rust:#95573C; --rust-wash:#F3E7E0;
+    --gold:#8A6D2F; --gold-wash:#F1EADA;
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#16150F; --paper-2:#1D1C16; --paper-3:#232219;
+      --ink:#EDEBE4; --ink-2:#BAB7AE; --ink-3:#8A8780; --ink-4:#5E5B54;
+      --line:#2E2C25; --line-2:#3D3A32;
+      --slate:#7FB0A8; --slate-2:#5E8E86; --slate-wash:#1B2624;
+      --rust:#C98A6B; --rust-wash:#2A1F19;
+      --gold:#C2A45F; --gold-wash:#26210F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#16150F; --paper-2:#1D1C16; --paper-3:#232219;
+    --ink:#EDEBE4; --ink-2:#BAB7AE; --ink-3:#8A8780; --ink-4:#5E5B54;
+    --line:#2E2C25; --line-2:#3D3A32;
+    --slate:#7FB0A8; --slate-2:#5E8E86; --slate-wash:#1B2624;
+    --rust:#C98A6B; --rust-wash:#2A1F19;
+    --gold:#C2A45F; --gold-wash:#26210F;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .page{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.75;
+    -webkit-font-smoothing:antialiased;min-height:100vh;padding:clamp(28px,5vw,64px) clamp(16px,5vw,48px) 96px;}
+  .wrap{max-width:940px;margin:0 auto;}
+
+  .mast{border-bottom:1.5px solid var(--ink);padding-bottom:20px;margin-bottom:6px;}
+  .mark{font-family:var(--sans);font-weight:600;font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:.14em;margin:0;}
+  .mark .dot{color:var(--slate);}
+  .doc{font-family:var(--serif);font-size:clamp(1.15rem,2.4vw,1.5rem);margin:10px 0 0;font-weight:600;}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:14px;font-size:.78rem;color:var(--ink-3);}
+  .meta b{color:var(--ink-2);font-weight:600;}
+
+  .prem{margin:26px 0 0;background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--slate);
+    border-radius:4px;padding:16px 20px;font-size:.88rem;color:var(--ink-2);}
+  .prem b{color:var(--ink);}
+
+  h2{font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.32rem);font-weight:600;margin:44px 0 4px;
+    padding-bottom:9px;border-bottom:1px solid var(--line-2);display:flex;align-items:baseline;gap:12px;}
+  h2 .n{font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.16em;color:var(--slate);}
+  .lede{margin:12px 0 18px;color:var(--ink-2);font-size:.9rem;max-width:70ch;}
+
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--paper-2);}
+  table{width:100%;border-collapse:collapse;font-size:.84rem;min-width:600px;}
+  th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{background:var(--paper-3);font-weight:700;font-size:.74rem;letter-spacing:.04em;color:var(--ink-2);white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  td.c,th.c{text-align:center;white-space:nowrap;}
+  .grp td{background:var(--slate-wash);font-weight:700;color:var(--slate);font-size:.8rem;}
+  tr.sum td{border-top:2px solid var(--line-2);font-weight:700;background:var(--paper-3);}
+  .yes{color:var(--slate);font-weight:700;}
+  .no{color:var(--ink-4);}
+  .pill{display:inline-block;font-size:.66rem;font-weight:700;border-radius:3px;padding:2px 8px;letter-spacing:.03em;}
+  .p-mvp{background:var(--slate);color:var(--paper-2);}
+  .p-2{background:var(--gold-wash);color:var(--gold);border:1px solid var(--gold);}
+  .p-3{background:var(--paper-3);color:var(--ink-3);border:1px solid var(--line-2);}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:16px;}
+  .card{background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:16px 18px;}
+  .card .k{font-size:.72rem;color:var(--ink-3);letter-spacing:.04em;}
+  .card .v{font-family:var(--serif);font-size:1.5rem;margin-top:3px;font-variant-numeric:tabular-nums;}
+  .card .s{font-size:.76rem;color:var(--ink-3);margin-top:4px;}
+  .card.hl{border-color:var(--slate);background:var(--slate-wash);}
+  .card.hl .v{color:var(--slate);}
+
+  ol.q{margin:16px 0 0;padding-left:0;list-style:none;counter-reset:q;}
+  ol.q li{counter-increment:q;position:relative;padding:12px 0 12px 44px;border-bottom:1px solid var(--line);font-size:.87rem;color:var(--ink-2);}
+  ol.q li::before{content:counter(q);position:absolute;left:0;top:12px;width:26px;height:26px;border:1px solid var(--rust);
+    color:var(--rust);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;}
+  ol.q li b{color:var(--ink);}
+  ol.q li:last-child{border-bottom:none;}
+
+  ul.plain{margin:12px 0 0;padding-left:1.15em;font-size:.87rem;color:var(--ink-2);}
+  ul.plain li{margin-bottom:6px;}
+  ul.plain b{color:var(--ink);}
+
+  .warn{margin-top:16px;background:var(--rust-wash);border:1px solid var(--rust);border-radius:4px;padding:14px 18px;font-size:.86rem;color:var(--ink);}
+  .warn b{color:var(--rust);}
+  .foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:.76rem;color:var(--ink-3);}
+</style>
+</head>
+<body>
+
+
+<div class="page"><div class="wrap">
+
+  <header class="mast">
+    <p class="mark">BARE<span class="dot">.</span></p>
+    <p class="doc">アプリ開発 スコープ定義書</p>
+    <div class="meta">
+      <span><b>版</b> v1（たたき台）</span>
+      <span><b>前提</b> 受託（請負）</span>
+      <span><b>出典</b> 事業計画「BARE_事業計画_副業18か月_現実的シナリオ.xlsx」全13シート</span>
+    </div>
+  </header>
+
+  <div class="prem">
+    <b>この文書の目的</b>　事業計画から機能を抽出し、<b>「何を・どこまで作るか」</b>を確定させるためのたたき台です。ここが固まると、次の見積もり（工数×単価）と受託契約に進めます。工数は現時点の想定で、要確認事項（§5）の回答によって増減します。
+  </div>
+
+  <h2><span class="n">01</span>プラン別 機能マトリクス</h2>
+  <p class="lede">事業計画「料金プラン」シートより。開発対象は下表の全機能です。プランによって<b>出し分け（機能制御）</b>が必要な点が実装上の要点になります。</p>
+  <div class="tw"><table>
+    <thead><tr><th>機能</th><th>Free ¥0</th><th>Standard ¥1,280</th><th>Plus ¥2,480</th><th class="c">段階</th></tr></thead>
+    <tbody>
+      <tr><td>初回 Assessment（18問）</td><td>○</td><td>○</td><td>○</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Mood（気分記録）</td><td>○</td><td>○</td><td>○</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Mood 推移</td><td>直近7日</td><td>期間制限なし</td><td>期間制限なし</td><td class="c"><span class="pill p-2">P2</span></td></tr>
+      <tr><td>今日の問い</td><td>1日1問（基本）</td><td>パーソナライズ</td><td>高度にパーソナライズ</td><td class="c"><span class="pill p-mvp">MVP</span>/<span class="pill p-2">P2</span></td></tr>
+      <tr><td>Journal</td><td>基本</td><td>無制限＋テンプレート</td><td>無制限＋深いReflection</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Column</td><td>一部</td><td>全記事</td><td>全記事＋おすすめ</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Weekly Reflection</td><td>簡易</td><td>詳細</td><td>詳細</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Monthly Assessment / Reflection</td><td class="no">—</td><td>○</td><td>○</td><td class="c"><span class="pill p-2">P2</span></td></tr>
+      <tr><td>価値観・テーマの蓄積</td><td class="no">—</td><td>○</td><td>○</td><td class="c"><span class="pill p-2">P2</span></td></tr>
+      <tr><td>Community</td><td class="no">—</td><td>一部</td><td>フル利用</td><td class="c"><span class="pill p-3">P3</span></td></tr>
+      <tr><td>限定グループ体験</td><td class="no">—</td><td class="no">—</td><td>○</td><td class="c"><span class="pill p-3">P3</span></td></tr>
+      <tr><td>心理士 Session 予約（Booking）</td><td>○（別料金）</td><td>○（別料金）</td><td>○（優待検討）</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="n">02</span>画面一覧と課金導線</h2>
+  <p class="lede">「全体設計」「課金タイミング」シートより。<b>Paywallは3箇所</b>（初回Assessment直後／Day 7／1か月後）。この体験フローが売上の中核なので、MVPでも Day 7 の Weekly Reflection → Standard 課金までは必ず通す必要があります。</p>
+  <div class="tw"><table>
+    <thead><tr><th>ステップ</th><th>タイミング</th><th>画面</th><th>課金導線</th><th class="c">段階</th></tr></thead>
+    <tbody>
+      <tr><td>STEP 1</td><td>登録前</td><td>Assessment / Result</td><td>売らない（自分ごと化）</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>STEP 2</td><td>Day 1</td><td>HOME / Mood / Question</td><td>7日間の体験開始</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>STEP 3</td><td>Day 2–6</td><td>FOR YOU / Journal / Column</td><td>まだ強く売らない</td><td class="c"><span class="pill p-mvp">MVP</span>/<span class="pill p-2">P2</span></td></tr>
+      <tr><td>STEP 4</td><td>Day 7</td><td>Weekly Reflection</td><td><b>初回CV → Standard ¥1,280</b></td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>STEP 5</td><td>無料継続</td><td>HOME / Journal</td><td>離脱防止・再提示</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>STEP 6</td><td>1か月後</td><td>Monthly Reflection</td><td>強い課金理由</td><td class="c"><span class="pill p-2">P2</span></td></tr>
+      <tr><td>別導線</td><td>いつでも</td><td>BOOKING</td><td>Session ¥4,000〜¥17,000</td><td class="c"><span class="pill p-mvp">MVP</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="n">03</span>開発スコープと工数（たたき台）</h2>
+  <p class="lede">前提：私（受託者）が単独で開発。デザインは既存の試作を土台に流用。工数は<b>実装＋動作確認</b>を含む見積もりで、§5の回答によって変動します。</p>
+  <div class="tw"><table>
+    <thead><tr><th>項目</th><th>内容</th><th class="n">工数(h)</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="3">MVP — 「課金が回る」最小構成（Day 7 課金＋Booking決済まで）</td></tr>
+      <tr><td>設計・環境構築</td><td>プロジェクト構成、ビルド、デザイン反映の土台</td><td class="n">8</td></tr>
+      <tr><td>認証・データ基盤</td><td>ログイン、DB設計、同期（Firebase 想定）</td><td class="n">20</td></tr>
+      <tr><td>Assessment（18問）</td><td>設問表示、回答保持、結果表示・判定</td><td class="n">12</td></tr>
+      <tr><td>HOME</td><td>今日の状態、各機能への導線</td><td class="n">6</td></tr>
+      <tr><td>Mood</td><td>記録UI、直近7日の表示</td><td class="n">8</td></tr>
+      <tr><td>今日の問い（基本）</td><td>問いバンクからの日替わり出題、回答保存</td><td class="n">6</td></tr>
+      <tr><td>Journal</td><td>作成・一覧・閲覧・編集</td><td class="n">10</td></tr>
+      <tr><td>Column</td><td>記事一覧・詳細、無料/有料の出し分け</td><td class="n">8</td></tr>
+      <tr><td>Weekly Reflection</td><td>7日分の集計・可視化、簡易/詳細の出し分け</td><td class="n">12</td></tr>
+      <tr><td>Booking＋決済</td><td>枠表示、予約、Stripe決済（30分/50分/3回券）</td><td class="n">16</td></tr>
+      <tr><td>課金（Standard）＋Paywall</td><td>サブスク購入、状態管理、Day 7 Paywall</td><td class="n">16</td></tr>
+      <tr><td>iOS化・ストア申請</td><td>Capacitor、審査対応、各種必須ページ</td><td class="n">16</td></tr>
+      <tr><td>テスト・修正</td><td>通し確認、不具合対応、リリース対応</td><td class="n">16</td></tr>
+      <tr class="sum"><td colspan="2">MVP 小計</td><td class="n">154</td></tr>
+
+      <tr class="grp"><td colspan="3">Phase 2 — 継続の価値（解約対策・Plus の理由づくり）</td></tr>
+      <tr><td>Monthly Reflection</td><td>1か月の変化・テーマ・長期推移</td><td class="n">16</td></tr>
+      <tr><td>パーソナライズ</td><td>おすすめの問い、FOR YOU の出し分けロジック</td><td class="n">20</td></tr>
+      <tr><td>Mood 推移（期間制限なし）</td><td>長期グラフ、傾向表示</td><td class="n">8</td></tr>
+      <tr><td>価値観・テーマの蓄積</td><td>タグ付け・蓄積・振り返り</td><td class="n">12</td></tr>
+      <tr><td>Plus プラン＋Paywall 拡張</td><td>上位プラン、3タイミングのPaywall出し分け</td><td class="n">12</td></tr>
+      <tr class="sum"><td colspan="2">Phase 2 小計</td><td class="n">68</td></tr>
+
+      <tr class="grp"><td colspan="3">Phase 3 — 上位価値（人との接点）</td></tr>
+      <tr><td>Community</td><td>投稿・閲覧・通報/モデレーション</td><td class="n">40</td></tr>
+      <tr><td>限定グループ体験</td><td>グループ Reflection の枠組み</td><td class="n">16</td></tr>
+      <tr><td>高度なパーソナライズ</td><td>Plus 向けの精緻化</td><td class="n">24</td></tr>
+      <tr class="sum"><td colspan="2">Phase 3 小計</td><td class="n">80</td></tr>
+      <tr class="sum"><td colspan="2">合計</td><td class="n">302</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cards">
+    <div class="card hl"><div class="k">MVP（契約単位の推奨）</div><div class="v">154 h</div><div class="s">これだけで課金とSession予約が成立</div></div>
+    <div class="card"><div class="k">Phase 2</div><div class="v">68 h</div><div class="s">継続価値・Plusの根拠</div></div>
+    <div class="card"><div class="k">Phase 3</div><div class="v">80 h</div><div class="s">Community等・後回し可</div></div>
+  </div>
+  <div class="warn"><b>契約は MVP 単位を推奨。</b>　全302時間を一括で請けると、仕様変更のリスクを全部こちらが被ります。<b>まず MVP（154h）を1本の請負契約</b>とし、Phase 2以降は成果と事業の進み方を見て別契約にするのが、双方にとって安全です。</div>
+
+  <h2><span class="n">04</span>技術構成（想定）</h2>
+  <ul class="plain">
+    <li><b>フロント</b>：HTML/CSS/JS ＋ Capacitor で iOS アプリ化（既存の試作資産を流用）</li>
+    <li><b>バックエンド</b>：Firebase（認証・DB・同期）／ Vercel Functions（決済処理などのサーバー側）</li>
+    <li><b>決済</b>：Session＝Stripe（人的サービスのため Apple 手数料の対象外）／ サブスク＝アプリ内課金（手数料15〜30%）を想定 ※§5-5 で要確定</li>
+    <li><b>データ</b>：Journal・Mood は<b>センシティブな個人情報</b>。暗号化・アクセス制御・規約/プライバシーポリシーが必須</li>
+  </ul>
+
+  <h2><span class="n">05</span>要確認事項（スコープが動く論点）</h2>
+  <p class="lede">以下は<b>回答しだいで工数が大きく変わる</b>項目です。着手前に確定させたい点。</p>
+  <ol class="q">
+    <li><b>Assessment 18問</b>の設問文と、結果の判定・分類ロジックは誰が用意しますか？（心理学的な設計は私の領域外です）</li>
+    <li><b>「パーソナライズ」の具体ルール</b>は何を根拠に問いを出し分けますか？（Assessment結果／Mood傾向／Journalの内容）ルールベースか、AI利用か。</li>
+    <li><b>Weekly / Monthly Reflection の分析ロジック</b>は？ 集計・可視化のみか、文章での要約（＝AI利用・従量課金が発生）まで含むか。</li>
+    <li><b>Column 記事</b>の執筆・供給体制（本数・更新頻度）。管理画面が必要か、こちらで更新するか。</li>
+    <li><b>サブスクの課金方式</b>：アプリ内課金（手数料15〜30%）か、Web決済か。<b>収益に直結します。</b></li>
+    <li><b>Booking の日程調整</b>：外部サービス連携（TimeRex等）か、自前実装か。自前だと工数が増えます。</li>
+    <li><b>UIデザイン</b>は誰が用意しますか？ デザインカンプの有無。無い場合は私が既存試作を発展させる前提です。</li>
+    <li><b>Android</b> も対象ですか？（iOSのみなら工数はこの見積もり通り）</li>
+    <li><b>規約・プライバシーポリシー・特商法表記</b>の文面は誰が用意しますか？</li>
+    <li><b>保守・運用</b>（不具合対応、OS更新対応、問い合わせ）は本契約に含めますか、別契約にしますか？</li>
+  </ol>
+
+  <h2><span class="n">06</span>本スコープに含まないもの</h2>
+  <ul class="plain">
+    <li>事業戦略・集客・価格設計に関する立案（受託範囲外）</li>
+    <li>Column・問い・Assessment などの<b>コンテンツ制作</b></li>
+    <li>SNS運用、広告運用</li>
+    <li>法務書類（規約等）の作成</li>
+    <li>リリース後の保守・運用（別契約とする場合）</li>
+  </ul>
+
+  <p class="foot">BARE. アプリ開発スコープ定義書 v1 ／ 事業計画 全13シートから抽出。工数・段階分けは受託者側の想定であり、§5の回答を経て確定します。</p>
+
+</div></div>
+
+</body>
+</html>
